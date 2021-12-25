@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/css/materialize.min.css"
+    />
+    <style media="screen" type="text/css">
+      body {
+        display: flex;
+        min-height: 100vh;
+        flex-direction: column;
+      }
+      main {
+        flex: 1 0 auto;
+      }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/js/materialize.min.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function ($) {
+        $("select").material_select();
+      });
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8" />
+    <title>SentiMeter</title>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <div class="nav-wrapper teal lighten-2">
+          <a href="/" class="brand-logo center">Senti-Meter</a>
+        </div>
+      </nav>
+    </header>
+    <main name="res">
+      <br />
+      {% block header %}
+      <script
+        type="text/javascript"
+        src="https://www.gstatic.com/charts/loader.js"
+      ></script>
+      <script type="text/javascript">
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+        function drawChart() {
+            var data = google.visualization.arrayToDataTable({{ data|safe }} );
+            var options = {
+                legend: {position: 'bottom', alignment: 'center', maxLines: 3},
+                slices: {
+                    0: { color: '#4CAF50' },
+                    1: { color: '#2196F3' },
+                    2: { color: '#F44336' }
+                }
+            };
+            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+            chart.draw(data, options);
+        }
+        $(window).resize(function(){        //to make chart Responsive
+            drawChart();
+        });
+      </script>
+      {% endblock %} {% block body %}
+      <div class="row">
+        <div class="col s12 m12 l12">
+          <div id="piechart" style="width: 100%; min-height: 450px"></div>
+        </div>
+      </div>
+      {% endblock %}
+      <br />
+    </main>
+    <footer
+      class="page-footer teal lighten-2"
+      style="!important;padding-top: 0"
+    >
+      <div class="footer-copyright"></div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,377 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+      integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+      integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" type="text/css" href="{% static 'index.css' %}" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'musicplayer.css' %}"
+    />
+    <title>Moosic</title>
+  </head>
+  <style>
+    .footer {
+      position: fixed;
+      left: 0px;
+      bottom: 0px;
+      height: auto;
+      width: 100%;
+      background: black;
+      color: white;
+      margin-top: 40px;
+    }
+  </style>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" id="myHeader">
+      <a class="navbar-brand" href=""
+        ><img
+          src="{% static 'moosic.jpeg' %}"
+          style="width: 70px; height: 70px"
+      /></a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          {% csrf_token %}
+          <form
+            class="form-inline my-2 my-lg-0"
+            method="get"
+            action="search.html"
+          >
+            {% csrf_token %}
+            <input
+              name="search"
+              class="form-control mr-sm-2"
+              type="search"
+              placeholder="search"
+              aria-label="search"
+            />
+            <button class="btn btn-outline-success my-2 my-sm-0" type="search">
+              Search
+            </button>
+          </form>
+
+          <li class="nav-item dropdown" style="position: relative">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              id="navbarDropdown"
+              role="button"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              name
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="#">Profile</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="login.html">Log-Out</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="playlist.html">Playlist</a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <br />
+    <main>{% block content %} {% endblock %}</main>
+    <br /><br /><br /><br /><br /><br /><br /><br />
+    <link rel="stylesheet" type="text/css" href="{% static 'index.css' %}" />
+    <div class="footer">
+      <iframe
+        id="video"
+        src="https://www.youtube.com/embed/ufojD9ek7-Y?enablejsapi=1&html5=1&autoplay=1&showinfo=0&controls=0"
+        frameborder="0"
+        width="0"
+        height="0"
+        allow=""
+      ></iframe>
+
+      <div class="playbar">
+        <div class="current-playing">
+          <div class="cur-info">
+            <div
+              class="label cur-title underline-on-hover bond-to-two-lines"
+              id="songName"
+            >
+              Welcome to Moosic!
+            </div>
+            <div class="label" id="channel_container">
+              <div
+                class="label cur-author underline-on-hover bond-to-two-lines"
+                id="channel"
+              >
+                RTK
+              </div>
+            </div>
+          </div>
+          <form id="like-form">
+            <input
+              type="hidden"
+              name="csrfmiddlewaretoken"
+              value="pJkODClSKoaNMOeZdzXVA2a3cwnBajBSzeS05JEZQmYKjE3wWjRGpgFlLTWoYQLR"
+            />
+            <div type="submit" class="like-icon mainicons" id="like-icon">
+              <img
+                class="heart"
+                id="stroke"
+                src="https://cdn.discordapp.com/attachments/768083738848133130/773960377683673198/Vector1.svg"
+                alt=""
+              />
+            </div>
+          </form>
+        </div>
+
+        <div class="playback">
+          <div class="playOptions">
+            <div onclick="goToStart()" class="mainicons">
+              <img
+                class="mainicons"
+                src="https://cdn.discordapp.com/attachments/768083738848133130/773142728145371146/skip-back.svg"
+                alt=""
+              />
+            </div>
+
+            <div class="buttons">
+              <button class="button" id="play-button">PLAY</button>
+            </div>
+            <div class="mainicons" onclick="nextSong()">
+              <img
+                class="mainicons"
+                src="https://cdn.discordapp.com/attachments/768083738848133130/773142729714696212/skip-forward.svg"
+                alt=""
+              />
+            </div>
+          </div>
+
+          <div class="slider">
+            <span id="currentDur">00:00</span>
+            <div class="range-slider">
+              <input
+                id="progressBar"
+                class="range-slider__range"
+                type="range"
+                value="0"
+                min="0"
+                max="100"
+              />
+            </div>
+            <span id="duration">00:00</span>
+          </div>
+          <div class="play-options">
+            <img
+              id="vol-icon"
+              class="mainicons"
+              src="https://cdn.discordapp.com/attachments/768083738848133130/773921819879014421/v3.png"
+              alt=""
+            />
+            <div id="volume" class="range-slider">
+              <input
+                id="volumeBar"
+                oninput="setVolume()"
+                class="range-slider__range"
+                type="range"
+                value="500"
+                min="0"
+                max="500"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <br />
+    </div>
+
+    <br /><br /><br />
+
+    <script>
+      // global variable for the player
+      var player;
+      document.getElementById("progressBar").value = 0;
+
+      // this function gets called when API is ready to use
+      function onYouTubePlayerAPIReady() {
+        // create the global player from the specific iframe (#video)
+        player = new YT.Player("video", {
+          events: {
+            // call this function when player is ready to use
+            onReady: onPlayerReady,
+            onStateChange: onPlayerStateChange,
+          },
+        });
+      }
+
+      function str_pad_left(string, pad, length) {
+        return (new Array(length + 1).join(pad) + Math.round(string)).slice(
+          -length
+        );
+      }
+
+      function infoUpdate() {
+        try {
+          dur = player.getDuration();
+          let minutes = Math.floor(dur / 60);
+          let seconds = dur - minutes * 60;
+          let finalTime =
+            str_pad_left(minutes, "0", 2) + ":" + str_pad_left(seconds, "0", 2);
+          document.getElementById("duration").innerHTML = finalTime;
+          var nowPlaying = player.getVideoData();
+          // console.log(nowPlaying, 'hey')
+          document.getElementById("songName").innerHTML = nowPlaying["title"];
+          document.getElementById("channel").innerHTML = nowPlaying["author"];
+        } catch {
+          console.log("error!");
+          document.getElementById("songName").innerHTML = "Welcome to Moosic!";
+          document.getElementById("channel").innerHTML = "RTK";
+        }
+      }
+
+      function onPlayerReady(event) {
+        // bind events
+        document.getElementById("video").allow = "autoplay";
+        var playButton = document.getElementById("play-button");
+        playButton.onclick = function () {
+          console.log(playButton.innerHTML);
+          if (playButton.innerHTML == "PLAY") {
+            player.playVideo();
+            playButton.innerHTML = "PAUSE";
+          } else {
+            player.pauseVideo();
+            playButton.innerHTML = "PLAY";
+          }
+        };
+
+        setVolume();
+        onPlayerStateChange(event);
+      }
+
+      function goToStart() {
+        player.seekTo(0);
+        progressBar.value = 0;
+        player.previousVideo();
+      }
+
+      function setVolume() {
+        let v = Math.floor(document.getElementById("volumeBar").value / 5);
+        player.setVolume(v);
+        vol_ico = document.getElementById("vol-icon");
+        if (v == 0) {
+          vol_ico.src =
+            "https://cdn.discordapp.com/attachments/768083738848133130/773923517091676190/v0.png";
+        } else if (v < 33) {
+          vol_ico.src =
+            "https://cdn.discordapp.com/attachments/768083738848133130/773921824635093013/v1.png";
+        } else if (v < 66) {
+          vol_ico.src =
+            "https://cdn.discordapp.com/attachments/768083738848133130/773921822492065843/v2.png";
+        } else {
+          vol_ico.src =
+            "https://cdn.discordapp.com/attachments/768083738848133130/773921819879014421/v3.png";
+        }
+      }
+
+      progressBar.addEventListener("input", function () {
+        var seek = progressBar.value;
+        finalSeek = (seek * dur) / 100;
+        player.seekTo(finalSeek);
+      });
+
+      function onPlayerStateChange(event) {
+        mytimer = setInterval(function () {
+          infoUpdate();
+
+          dur = player.getDuration();
+          var playerCurrentTime = player.getCurrentTime();
+          var playerTimeDifference = (playerCurrentTime / dur) * 100;
+          progressBar.value = playerTimeDifference;
+          let minutes = Math.floor(playerCurrentTime / 60);
+          let seconds = playerCurrentTime - minutes * 60;
+          let currentDur =
+            str_pad_left(minutes, "0", 2) + ":" + str_pad_left(seconds, "0", 2);
+          document.getElementById("currentDur").innerHTML = currentDur;
+        }, 1000);
+
+        if (event.data == YT.PlayerState.PLAYING) {
+          progressBar.addEventListener("input", function () {
+            var seek = progressBar.value;
+            finalSeek = (seek * dur) / 100;
+            player.seekTo(finalSeek);
+          });
+
+          mytimer = setInterval(function () {
+            infoUpdate();
+            dur = player.getDuration();
+            var playerCurrentTime = player.getCurrentTime();
+            var playerTimeDifference = (playerCurrentTime / dur) * 100;
+            progressBar.value = playerTimeDifference;
+            let minutes = Math.floor(playerCurrentTime / 60);
+            let seconds = playerCurrentTime - minutes * 60;
+            let currentDur =
+              str_pad_left(minutes, "0", 2) +
+              ":" +
+              str_pad_left(seconds, "0", 2);
+            document.getElementById("currentDur").innerHTML = currentDur;
+          }, 1000);
+        }
+      }
+
+      // Inject YouTube API script
+      var tag = document.createElement("script");
+      tag.src = "https://www.youtube.com/player_api";
+      var firstScriptTag = document.getElementsByTagName("script")[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    </script>
+
+    <script>
+      /*var img_array = [
+                "https://cdn.discordapp.com/attachments/768083738848133130/773142731144560640/play-circle.svg ",
+                "https://cdn.discordapp.com/attachments/768083738848133130/773873949082910751/pause-circle.svg",
+              ];
+              function changeimg() {
+                var playimg = document.getElementById("playimg");
+                //var y = document.getElementById("playaudio").src;
+
+                //console.log(y);
+                if (playimg.src == img_array[1]) {
+                  playimg.src = img_array[0];
+                } else {
+                  playimg.src = img_array[1];
+                }
+              }*/
+    </script>
+  </body>
+</html>
