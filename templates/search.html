@@ -35,7 +35,7 @@ rel="stylesheet" href="{% static 'search.css' %}?{% now " U " %}">
     </div>
     <div class="des">
       <p>By {{ card.channel }}</p>
-      <button id="playvideo" onclick="playsong('https://www.youtube.com/embed/','{{card.url_suffix}}?enablejsapi=1')"><img class="play" src="https://cdn.discordapp.com/attachments/768083738848133130/769476261181128734/image_1.png" alt=""></button>
+      <button id="playvideo" onclick="playsong('https://www.youtube-nocookie.com/embed/','{{card.url_suffix}}?enablejsapi=1&rel=0&iv_load_policy=3&fs=0&controls=0&disablekb=1')"><img class="play" src="https://cdn.discordapp.com/attachments/768083738848133130/769476261181128734/image_1.png" alt=""></button>
     </div>
     
   </div>
@@ -51,7 +51,6 @@ rel="stylesheet" href="{% static 'search.css' %}?{% now " U " %}">
     var txt=site+s2.substring(9);
     var x=document.getElementById('video');
     x.src=txt;
-    x.src += "&autoplay=1"+"&html5=1"+"&showinfo=0"+"&controls=0";
     var img_array = [
         "https://cdn.discordapp.com/attachments/768083738848133130/773142731144560640/play-circle.svg ",
         "https://cdn.discordapp.com/attachments/768083738848133130/773873949082910751/pause-circle.svg",
